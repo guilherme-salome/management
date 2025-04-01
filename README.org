@@ -1,0 +1,18 @@
+* management.el - A package for managing people and projects in Emacs
+
+** Installation
+1. Clone the repository:
+   #+BEGIN_SRC sh
+   git clone https://github.com/guilherme-salome/management.git ~/.emacs.d/site-lisp/management
+   #+END_SRC
+2. Add the following to your Emacs init file:
+   #+BEGIN_SRC elisp
+   (add-to-list 'load-path "~/.emacs.d/site-lisp/management")
+   (require 'management)
+   #+END_SRC
+
+** Usage
+Call `M-x management/org-skip-properties` to skip property drawers in Org-mode.
+
+** License
+This package is licensed under the MIT License.

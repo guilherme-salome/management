@@ -32,5 +32,15 @@
   (setq org-roam-capture-templates management-org-roam-templates
         org-capture-templates management-org-capture-templates))
 
+(defun management-people-update-working-on ()
+  "Update or create the 'Working On' tree for a person's Org-roam node based on tasks assigned to them across any projects."
+  (interactive)
+  (when (member "person" (org-property-values "ROAM_TAGS"))
+    (let* ((node (org-roam-node-at-point))
+           (node-id (org-roam-node-id node))
+           (person-name (org-roam-node-title node)))
+      (management-update-or-create-working-on-tree-with-project-tasks (management-get-project-planning-tasks-linked-to-node-id node-id))
+      (message (concat "Updated tasks for: " person-name)))))
+
 (provide 'management-core)
 ;;; management-core.el ends here

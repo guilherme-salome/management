@@ -19,6 +19,8 @@
 ;;
 ;;; Code:
 
+(declare-function management-select-task-from-projects-and-create-link "management-utilities")
+
 (defgroup management nil
   "Customization group for management."
   :group 'org)

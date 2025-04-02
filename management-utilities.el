@@ -72,7 +72,8 @@
                            (plist-get task :title)             ;; Exact heading as anchor
                            (plist-get task :title)))
            (outline-path (append (list "Working On" (plist-get task :project)) (cdr (plist-get task :outline)) (list heading))))
-      (management-goto-or-create-org-outline-path outline-path))))
+      (management-goto-or-create-org-outline-path outline-path)))
+  (widen))
 
 (defun management-select-task-from-projects-and-create-link ()
   "Select a TODO task from Org-roam project files, filtering tasks under 'Planning'."

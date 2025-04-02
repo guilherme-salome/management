@@ -20,7 +20,8 @@
 ;;; Code:
 
 (require 'management-custom)
-(require 'org-roam nil t)  ;; Load org-roam if available, no error if not
+(require 'management-utilities)
+(require 'org-roam)
 
 (defun management-setup-defaults ()
   "Set up default configurations for management."

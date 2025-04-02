@@ -21,7 +21,7 @@
 
 
 (require 'management-custom)
-
+(require 'management-core)
 
 (provide 'management)
 ;;; management.el ends here

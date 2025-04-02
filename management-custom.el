@@ -1,4 +1,4 @@
-;;; management-custom.el --- Description -*- lexical-binding: t; -*-
+;;; management-custom.el --- Customization variables for management -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (C) 2025 Guilherme Salome
 ;;
@@ -22,6 +22,13 @@
 (defgroup management nil
   "Customization group for management."
   :group 'org)
+
+(defcustom management-org-roam-directory nil
+  "Directory for org-roam files used by management.
+If nil, management will not modify `org-roam-directory`, allowing the user's
+existing setting (or org-roam's default) to persist."
+  :type 'directory
+  :group 'management)
 
 (defcustom management-org-roam-templates
   '(("d" "default" plain "%?"
@@ -61,14 +68,6 @@
                          (list string string
                                (repeat (list string string (function :tag "Type") (sexp :tag "Target") string)))))
   :group 'management)
-
-(defun management-setup-templates ()
-  "Set up default template configurations for management."
-  (interactive)
-  (when (featurep 'org-roam)
-    (setq org-roam-capture-templates my-package-org-roam-templates))
-  (when (featurep 'org)
-    (setq org-capture-templates my-package-org-capture-templates)))
 
 (provide 'management-custom)
 ;;; management-custom.el ends here

@@ -48,27 +48,34 @@ existing setting (or org-roam's default) to persist."
   :group 'management)
 
 (defcustom management-org-capture-templates
-  '(("t" "Templates for Tasks"
-     ("td" "Task - Project Delivery" entry (file+headline buffer-file-name "Deliveries")
-      "* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:ASSIGNED_TO: %^{Assignee|Unassigned}\n:DEADLINE: %^t\n:END:\nContext:\n\nAcceptance Criteria:")
-     ("te" "Task - Project Enhancement" entry (file+headline buffer-file-name "Enhancements")
-      "* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:ASSIGNED_TO: %^{Assignee|Unassigned}\n:END:\nContext:\n\nAcceptance Criteria:")
-     ("tr" "Task - Project Request" entry (file+headline buffer-file-name "Requests")
-      "* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:ASSIGNED_TO: %^{Assignee|Unassigned}\n:REQUESTED_BY: %^{Requested by}\n:END:\nQuestion:\n")
-     ("tb" "Task - Project Backlog" entry (file+headline buffer-file-name "Backlog")
-      "* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:END:\nContext:\n")
-     ("th" "Task - Here" entry (here) "* TODO %?"))
-    ("d" "Discussion" entry (file+headline buffer-file-name "Discussions")
-     "* <%(format-time-string \"%Y-%m-%d %<%a>\")>\n%?")
-    ("p" "Templates for Progress Updates"
-     ("pp" "Project Progress" entry (file+headline buffer-file-name "Progress")
-      "* <%(format-time-string \"%Y-%m-%d %<%a>\")> %(management-select-task-from-projects-and-create-link)")
-     ("pg" "General Progress" entry (file+headline buffer-file-name "Progress")
-      "* <%(format-time-string \"%Y-%m-%d %<%a>\")> %?")))
+  '(;("p" "Project Task" entry (here) "* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:ASSIGNED_TO: %^{Assignee|Unassigned}\n:END:\nContext:\n\nAcceptance Criteria:")
+    ("t" "Templates for Tasks")
+    ("td" "Task - Project Delivery" entry (file+headline buffer-file-name "Deliveries") "* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:ASSIGNED_TO: %^{Assignee|Unassigned}\n:DEADLINE: %^t\n:END:\nContext:\n\nAcceptance Criteria:")
+    ("te" "Task - Project Enhancement" entry (file+headline buffer-file-name "Enhancements") "* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:ASSIGNED_TO: %^{Assignee|Unassigned}\n:END:\nContext:\n\nAcceptance Criteria:")
+    ("tr" "Task - Project Request" entry (file+headline buffer-file-name "Requests") "* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:ASSIGNED_TO: %^{Assignee|Unassigned}\n:REQUESTED_BY: %^{Requested by}\n:END:\nQuestion:\n")
+    ("tb" "Task - Project Backlog" entry (file+headline buffer-file-name "Backlog") "* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:END:\nContext:\n")
+    ("th" "Task - Here" entry (here) "* TODO %?")
+    ("d" "Discussion" entry (file+headline buffer-file-name "Discussions") "* <%(format-time-string \"%Y-%m-%d %<%a>\")>\n%?")
+    ("p" "Templates for Progress Updates")
+    ("pp" "Project Progress" entry (file+headline buffer-file-name "Progress") "* <%(format-time-string \"%Y-%m-%d %<%a>\")> %(management-select-task-from-projects-and-create-link)")
+    ("pg" "General Progress" entry (file+headline buffer-file-name "Progress") "* <%(format-time-string \"%Y-%m-%d %<%a>\")> %?"))
   "Default org capture templates provided by management."
-  :type '(repeat (choice (list string string (function :tag "Type") (sexp :tag "Target") string)
-                         (list string string
-                               (repeat (list string string (function :tag "Type") (sexp :tag "Target") string)))))
+  :type '(repeat (choice (list :tag "Template"
+                              (string :tag "Key")
+                              (string :tag "Description")
+                              (choice :tag "Type" (const entry) (const item) (const checkitem) (const table-line) (const plain))
+                              (choice :tag "Target"
+                                     (const :tag "Current point" here)
+                                     (list :tag "File" (const file) (string :tag "Path"))
+                                     (list :tag "File & Headline" (const file+headline) (string :tag "Path") (string :tag "Headline"))
+                                     (list :tag "File & Olp" (const file+olp) (string :tag "Path") (repeat :tag "Path" (string :tag "Headline")))
+                                     (list :tag "File & Function" (const file+function) (string :tag "Path") (function :tag "Function"))
+                                     (list :tag "File & Regexp" (const file+regexp) (string :tag "Path") (regexp :tag "Regexp"))
+                                     (list :tag "Function" (const function) (function :tag "Function")))
+                              (string :tag "Template"))
+                        (list :tag "Template Group"
+                              (string :tag "Key")
+                              (string :tag "Description"))))
   :group 'management)
 
 (provide 'management-custom)

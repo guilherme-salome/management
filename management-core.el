@@ -27,7 +27,7 @@
   "Set up default configurations for management."
   (interactive)
   (unless (featurep 'org-roam)
-    (error "management requires org-roam, which is not loaded. Please install and load it."))
+    (error "Missing org-roam package. Please install it first"))
   (when management-org-roam-directory
     (setq org-roam-directory management-org-roam-directory))
   (setq org-roam-capture-templates management-org-roam-templates
@@ -42,6 +42,8 @@
            (person-name (org-roam-node-title node)))
       (management-update-or-create-working-on-tree-with-project-tasks (management-get-project-planning-tasks-linked-to-node-id node-id))
       (message (concat "Updated tasks for: " person-name)))))
+
+
 
 (provide 'management-core)
 ;;; management-core.el ends here

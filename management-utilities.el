@@ -103,5 +103,31 @@
          (selection (completing-read "Select a TODO: " choices nil t)))
     (cdr (assoc selection choices))))
 
+(defun management-get-discussions (org-file)
+  "Extract first-level subtrees under the 'Discussions' heading from ORG-FILE.
+Returns an alist where each entry is (SUBTREE-TITLE . SUBTREE-CONTENTS). Filters
+subtrees based on date in the headline, only including those from the last week."
+  (with-temp-buffer
+    (insert-file-contents org-file)
+    (org-mode)
+    (goto-char (point-min))
+    (let ((discussions nil))
+      (while (re-search-forward "^\\* \\(.*\\) \\(\\[\\([0-9]+-[0-9]+-[0-9]+\\)\\]\\)" nil t)
+        (let* ((date-string (match-string 3))
+               (date (date-to-time date-string))
+               (current-time (current-time)))
+          ;; Check if the date is within the last week
+          (when (time-less-p date (time-subtract current-time (* 7 24 60 60)))
+            ;; Extract the subtree title and contents
+            (let ((title (match-string 1))
+                  (subtree-start (match-beginning 0)))
+              ;; Move to the end of the subtree
+              (org-narrow-to-subtree)
+              ;; Store the title and contents in the alist
+              (push (cons title (buffer-substring-no-properties subtree-start (point))) discussions)
+              ;; Widen to get back to the full buffer
+              (widen)))))
+      discussions)))
+
 (provide 'management-utilities)
 ;;; management-utilities.el ends here

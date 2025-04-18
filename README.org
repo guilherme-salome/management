@@ -1,5 +1,55 @@
 * management.el - A package for managing people and projects in Emacs
 
+As someone who frequently manages people and projects, I've long felt the need for a cohesive system within Emacs—one that ties together projects, tasks, and people, leveraging Org-mode’s power. Over the past few weeks, I've started building an Emacs package that aims to support my workflow around these needs.
+
+** Overview
+
+*This is a first draft:* a collection of functions, experiments, and utilities. The architecture—and even some core concepts—will certainly evolve as I refine my ideas and adapt them to real-world usage. My goal with this article is to document my process and thinking as I go, in the spirit of open development and learning in public. Expect updates as this framework crystallizes!
+
+*** Core Concepts
+
+The big idea is to:
+
+- Centralize information about projects and people using /Org-roam/.
+- Synchronize and manage project tasks, project status, and personal assignments.
+- Integrate with external project management tools (like Jira).
+- Visualize assignments, tasks, and progress directly within Org files.
+
+The current draft is organized into several files and areas of functionality:
+
+*/1. Utilities for Navigating Org Trees*/
+
+At the heart of this framework are functions to find or create outline headings within org files programmatically—ensuring, for example, that sections like "Planning" or "Working On" exist and are nested correctly. The main utility function for this is =management-goto-or-create-org-outline-path=.
+
+*/2. "Working On"—Automatic Personal Task Views*/
+
+Each person (represented as an Org-roam node) maintains a "Working On" section, listing all their active tasks from across projects. The function =management-people-update-working-on= automates this, crawling all project files, finding tasks assigned to the current person, and updating their view. This makes it easy to get a snapshot of someone's current workload without manual tracking.
+
+*/3. Project & Task Creation with Org-roam & Org-capture*/
+
+The framework uses Org-roam capture templates for both projects and people, providing consistent structure out of the box. Similarly, there are org-capture templates for various task types (deliveries, enhancements, requests, backlog), as well as discussion and progress logs. For task selection and linking, =management-select-task-from-projects-and-create-link= provides user-friendly interfaces.
+
+*/4. Jira Integration (Alpha Stage)*/
+
+A central experiment is connecting Org-mode project trees to Jira, fetching data from Jira APIs and mapping tasks/epics to Org outlines. Functions such as =management-jira-update-planning= and =management-jira-get-epics= are early attempts at keeping project outlines in sync with external tools. Authentication is handled via properties and =.authinfo=, keeping credentials secure.
+
+*/5. Discussion & Progress Sections*/
+
+Every project and person Org node features a "Discussions" and "Progress" section, structured for rapid note-taking and easy review. To help with reporting and tracking, the function =management-get-discussions= extracts chronological logs or discussion notes from a file.
+
+---
+
+*** Usage Highlights
+
+- /Creating a new project or person/: Use the provided Org-roam capture templates for standardized structure.
+- /Assigning tasks/: Org-capture templates guide you through adding tasks to the correct project and section.
+- /Aggregating tasks per person/: Use =management-people-update-working-on= to refresh the “Working On” list and see all tasks assigned to a given person.
+- /Syncing with Jira/: Experiment with functions like =management-jira-update-planning=, following setup instructions for Jira integration in your =.authinfo=.
+
+This package is very much a work in progress. Both the code and underlying ideas are open to change, reflecting what I learn in my real management work. I plan to document each iteration and encourage feedback and collaboration.
+
+If you have feedback, suggestions, or your own approaches, please reach out—or follow the repository for frequent updates.
+
 ** Installation
 1. Clone the repository:
    #+BEGIN_SRC sh

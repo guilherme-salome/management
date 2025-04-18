@@ -22,6 +22,7 @@
 
 (require 'management-custom)
 (require 'management-core)
+(require 'management-core-jira)
 
 (provide 'management)
 ;;; management.el ends here

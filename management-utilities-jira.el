@@ -209,8 +209,5 @@ EPIC-KEY is the Jira Epic key."
       (goto-char (point-min))
       (display-buffer (current-buffer)))))
 
-
-
-
 (provide 'management-utilities-jira)
 ;;; management-utilities-jira.el ends here
